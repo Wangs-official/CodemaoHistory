@@ -31,7 +31,7 @@ today_worknum = (
 )
 print(f"今日作品数量：{today_worknum}")
 yesterday_worknum = data["work_count"]
-work_rate = f"{(today_worknum - yesterday_worknum) / yesterday_worknum * 100:.2f}"
+work_rate = f"{(today_worknum - yesterday_worknum) / yesterday_worknum * 100:.4f}"
 f.close()
 
 
@@ -53,8 +53,8 @@ print(f"今日帖子数量：{today_postnum}")
 print(f"今日回复数量：{today_replynum}")
 yesterday_postnum = data["post_count"]
 yesterday_replynum = data["reply_count"]
-post_rate = f"{(today_postnum - yesterday_postnum) / yesterday_postnum * 100:.2f}"
-reply_rate = f"{(today_replynum - yesterday_replynum) / yesterday_replynum * 100:.2f}"
+post_rate = f"{(today_postnum - yesterday_postnum) / yesterday_postnum * 100:.4f}"
+reply_rate = f"{(today_replynum - yesterday_replynum) / yesterday_replynum * 100:.4f}"
 f.close()
 
 # 回写数据
@@ -76,16 +76,146 @@ f.close()
 index_data = json.loads(today_index)
 items = index_data.get("items", [])
 
-# 写入到HTML
-
+# 写入到HTML（论坛）
 html = f"""
+<p><strong><span style=\"font-size: large;\"><img
+src=\"https://static.codemao.cn/emoji/codemao/%E7%BC%96%E7%A8%8B%E7%8C%AB_%E5%97%A8%E8%B5%B7%E6%9D%A5.gif\"
+alt=\"emotion_编程猫_嗨起来\"></span></strong></p>
+<div>&nbsp;</div><br/>
+
+<p><span style=\"color: #ff5050;\"><strong>
+<span style=\"font-size: large;\">⚠️ 提示</span>
+</strong></span></p>
+
+<div><span style=\"color:#ff5050;\">数据由程序自动统计并上传，截止到本日23:50分</span></div>
+<div>&nbsp;</div><br/>
+
+<div><span style=\"color:#ff5050;\">首页只显示 TOP10 作品，由API自动选取</span></div>
+<div>&nbsp;</div><br/>
+
+<div><span style=\"color:#ff5050;\">你猫统计API有点问题，作品数量的统计可能会有异常情况发生</span></div>
+<div>&nbsp;</div><br/><br/>
+
+<div><strong><span style=\"font-size: large;\">📈 作品情况</span></strong></div>
+<div>&nbsp;</div><br/><br/>
+
+<div>✅ 今日上传作品：
+<span style=\"color:#50aae6;\">{today_worknum - yesterday_worknum}</span> 个</div>
+<div>&nbsp;</div><br/>
+
+<div>📈 作品增长率（较昨日）：
+<span style=\"color:#50aae6;\">{work_rate}</span> %</div>
+<div>&nbsp;</div><br/><br/>
+
+<div><strong><span style=\"font-size: large;\">📈 论坛情况</span></strong></div>
+<div>&nbsp;</div><br/><br/>
+
+<div>✅ 今日发布帖子：
+<span style=\"color:#50aae6;\">{today_postnum - yesterday_postnum}</span> 个</div>
+<div>&nbsp;</div><br/>
+
+<div>📈 帖子增长率（较昨日）：
+<span style=\"color:#50aae6;\">{post_rate}</span> %</div>
+<div>&nbsp;</div><br/>
+
+<div>✅ 今日回复帖子总数：
+<span style=\"color:#50aae6;\">{today_replynum - yesterday_replynum}</span> 个</div>
+<div>&nbsp;</div><br/>
+
+<div>📈 回复增长率（较昨日）：
+<span style=\"color:#50aae6;\">{reply_rate}</span> %</div>
+<div>&nbsp;</div><br/><br/>
+
+<div><strong><span style=\"font-size: large;\">🏠 首页情况</span></strong></div>
+<div>&nbsp;</div><br/>
+
+<div><span style=\"font-size: small;\">只选取TOP10作品</span></div>
+<div>&nbsp;</div><br/><br/>
+"""
+
+work_no = 0
+
+for work in items:
+    work_no = work_no + 1
+    html += f"""
+<div>
+<div><strong><span
+        style=\"font-size: medium;\">《{work["work_name"]}》</span></strong></div>
+<div>&nbsp;</div><br/>
+
+<div><span style=\"font-size: small;\"><strong>🔢&nbsp;</strong></span>作品ID：
+<span style=\"color: #50aae6;\">{work["work_id"]}</span></div>
+<div>&nbsp;</div><br/>
+
+
+<div><span style=\"font-size: small;\"><strong>🔧&nbsp;</strong></span>开发者：
+<span style=\"color: #50aae6;\">{work["nickname"]}</span></div>
+<div>&nbsp;</div><br/>
+
+<div>👁 总浏览数：
+<span style=\"color: #50aae6;\">{work["views_count"]}</span></div>
+<div>&nbsp;</div><br/>
+
+<div>👍🏻 总点赞数：
+<span style=\"color: #50aae6;\">{work["likes_count"]}</span></div>
+<div>&nbsp;</div><br/>
+
+<div>🤔 排名：
+<span style=\"color: #50aae6;\">{work_no}</span> 名</div>
+<div>&nbsp;</div><br/>
+</div><br/>
+"""
+
+html += f"""
+<br/><div><strong><span style=\"font-size: large;\">👌🏻 统计完成</span></strong></div>
+<div>&nbsp;</div><br/>
+
+<div>Action触发时间戳：
+<strong>{time.time()}</strong></div>
+<div>&nbsp;</div><br/>
+
+<div>若有统计问题，可在此帖子下进行反馈</div>
+<div>&nbsp;</div><br/>
+
+<div>黎星羽的训练师ID：1458227103</div>
+<div>&nbsp;</div><br/>
+
+<div>同时发布在图书馆，小说ID：192733</div>
+<div>&nbsp;</div><br/>
+
+<div>本帖将会发在“灌水池塘”，之后想看的话，也可以来这里找</div>
+<div>&nbsp;</div><br/>
+
+<div><img
+src=\"https://static.codemao.cn/emoji/codemao/%E7%BC%96%E7%A8%8B%E7%8C%AB_%E7%82%B9%E8%B5%9E.gif\"
+alt=\"emotion_编程猫_点赞\"></div>
+"""
+
+# 发布论坛
+
+response = PostAPI(
+    Path="/web/forums/boards/7/posts",
+    PostData={
+        "title": f"{date.today().isoformat()} 统计情况【编程猫赛博史书】",
+        "content": html,
+    },
+    Token=token,
+)
+
+post_id = json.loads(response.text).get("id", 0)
+print(f"完成论坛上传任务, 帖子ID：{post_id}")
+
+
+# 发布小说
+
+html_novel = f"""
 <h1 style="font-size: 1.6em; font-weight: normal;">
     {date.today().isoformat()} 统计数据
 </h1>
 
 <p><span style="color: #ff5050;">数据由程序自动统计并上传，截止到本日23:50分</span></p>
 <p><span style="color: #ff5050;">首页只显示 TOP10 作品，由API自动选取</span></p>
-<p><span style="color: #ff5050;">由于你猫统计API有点问题，作品数量/帖子数量的统计可能会有点问题</span></p>
+<p><span style="color: #ff5050;">你猫统计API有点问题，作品数量的统计可能会有异常情况发生</span></p>
 
 <h2 style="font-size: 1.4em; font-weight: normal;">
   ============ ~作品情况~ ============
@@ -106,8 +236,11 @@ html = f"""
 </h2>
 """
 
+work_no = 0
+
 for work in items:
-    html += f"""
+    work_no = work_no + 1
+    html_novel += f"""
 <h3 style="font-size: 1.2em; font-weight: normal;">
   《{work["work_name"]}》
 </h3>
@@ -115,26 +248,26 @@ for work in items:
 <p>开发者：{work["nickname"]}</p>
 <p>总浏览数：{work["views_count"]}</p>
 <p>总点赞：{work["likes_count"]}</p>
+<p>排行：{work_no} 名</p>
 <br/>
 """
 
-html += f"""
+html_novel += f"""
 <h2 style="font-size: 1.4em; font-weight: normal;">
   ============ 统计完成 ============
 </h2>
 <p>Action触发时间戳：{time.time()}</p>
-<p>若有统计问题，可在黎星羽的作品下反馈</p>
+<p>若有统计问题，可在黎星羽的作品/本日统计帖子下反馈</p>
+<p>已在论坛完成发帖，帖子ID：{post_id}</p>
 <p>黎星羽的训练师ID：1458227103</p>
 <p>BY LiXingYu</p>
 """
-
-# 发布
 
 response = PostAPI(
     Path="/web/fanfic/section",
     PostData={
         "title": datetime.now().strftime("%m%d"),
-        "draft": html,
+        "draft": html_novel,
         "draft_words_num": 0,
         "fanfic_id": 192733,
     },
@@ -145,4 +278,4 @@ t_id = json.loads(response.text).get("id", 0)
 
 PutAPI(Path=f"/web/fanfic/section/{t_id}/publish", Token=token)
 
-print("完成上传任务")
+print(f"完成小说上传任务，章节ID：{t_id}")
