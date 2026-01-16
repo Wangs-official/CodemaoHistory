@@ -8,6 +8,9 @@ on:
 env:
     CODEMAO_PHONE: ${{ secrets.CODEMAO_PHONE }}
     CODEMAO_PASSWORD: ${{ secrets.CODEMAO_PASSWORD }}
+    
+permissions:
+  contents: write
 
 jobs:
   run:
