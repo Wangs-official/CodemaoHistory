@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: "50 15 * * *"
 
+env:
+    CODEMAO_PHONE: ${{ secrets.CODEMAO_PHONE }}
+    CODEMAO_PASSWORD: ${{ secrets.CODEMAO_PASSWORD }}
+
 jobs:
   run:
     runs-on: ubuntu-latest
