@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install CodemaoEDUTools
+          pip install CodemaoEDUTools==2.1.0
 
       - name: Run stat script
         run: |
