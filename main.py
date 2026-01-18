@@ -125,7 +125,7 @@ alt=\"emotion_编程猫_嗨起来\"></span></strong></p>
 <div>&nbsp;</div><br/><br/>
 
 <div>✅ 今日上传作品：
-<span style=\"color:#50aae6;\">{today_worknum - yesterday_worknum}</span> 个</div>
+<span style=\"color:#50aae6;\">{today_worknum}</span> 个</div>
 <div>&nbsp;</div><br/>
 
 <div>📈 作品增长率（较昨日）：
@@ -244,7 +244,7 @@ html_novel = f"""
 <h2 style="font-size: 1.4em; font-weight: normal;">
   ============ ~作品情况~ ============
 </h2>
-<p>今日上传作品：{today_worknum - yesterday_worknum} 个</p>
+<p>今日上传作品：{today_worknum} 个</p>
 <p>作品增长率（较昨日）：{work_rate} %</p>
 
 <h2 style="font-size: 1.4em; font-weight: normal;">
