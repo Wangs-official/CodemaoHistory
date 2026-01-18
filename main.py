@@ -5,12 +5,24 @@ from datetime import date, datetime
 import json
 import time
 import os
+import requests
 
 boards = ["17", "2", "10", "5", "3", "6", "27", "11", "26", "13", "7", "4", "28"]
 
 # 登录
 
-token = GetUserToken(os.environ["CODEMAO_PHONE"], os.environ["CODEMAO_PASSWORD"])
+# token = GetUserToken(os.environ["CODEMAO_PHONE"], os.environ["CODEMAO_PASSWORD"])
+token = GetUserToken("18302483580", "wzx0926wzx")
+
+headers = {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "zh-CN,zh;q=0.9",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+    "authorization": token,
+}
 
 # 获得今日T10作品
 
@@ -24,13 +36,28 @@ today_index = response.text
 with open("status.json", "r") as f:
     data = json.load(f)
 
-today_worknum = (
-    GetWithoutTokenAPI("/creation-tools/v1/pc/discover/newest-work?offset=0&limit=20")
-    .json()
-    .get("total")
-)
-print(f"今日作品数量：{today_worknum}")
+yesterday_workid = data["work_lastid"]
 yesterday_worknum = data["work_count"]
+
+today_workid = json.loads(
+    requests.post(
+        url="https://api-creation.codemao.cn/kitten/r2/work",
+        json={
+            "name": "临时作品",
+            "work_url": "https://creation.bcmcdn.com/445/kitten/d2ViXzIwMDJfMTQ1ODIyNzEwM18xXzE3Njc5NzAyMDU5MjNfY2U2NGFhYmM=.bcm4",
+            "preview": "https://creation.bcmcdn.com/445/kitten/d2ViXzIwMDFfMTQ1ODIyNzEwM18xXzE3Njc5NzAyMDU2MTRfY2RhNTQ1MzM=",
+            "orientation": 1,
+            "sample_id": "",
+            "version": "4.11.18",
+            "work_source_label": 1,
+            "save_type": 2,
+        },
+        headers=headers,
+    ).text
+).get("id")
+print(f"测试的作品ID：{today_workid}")
+print(f"今日作品数量：{today_workid - yesterday_workid}")
+today_worknum = today_workid - yesterday_workid
 work_rate = f"{(today_worknum - yesterday_worknum) / yesterday_worknum * 100:.4f}"
 f.close()
 
@@ -63,6 +90,7 @@ with open("status.json", "r", encoding="utf-8") as f:
     status = json.load(f)
 
 status["work_count"] = today_worknum
+status["work_lastid"] = today_workid
 status["post_count"] = today_postnum
 status["reply_count"] = today_replynum
 
@@ -92,9 +120,6 @@ alt=\"emotion_编程猫_嗨起来\"></span></strong></p>
 
 <div><span style=\"color:#ff5050;\">首页只显示 TOP10 作品，由API自动选取</span></div>
 <div>&nbsp;</div><br/>
-
-<div><span style=\"color:#ff5050;\">你猫统计API有点问题，作品数量的统计可能会有异常情况发生</span></div>
-<div>&nbsp;</div><br/><br/>
 
 <div><strong><span style=\"font-size: large;\">📈 作品情况</span></strong></div>
 <div>&nbsp;</div><br/><br/>
@@ -215,7 +240,6 @@ html_novel = f"""
 
 <p><span style="color: #ff5050;">数据由程序自动统计并上传，截止到本日23:50分</span></p>
 <p><span style="color: #ff5050;">首页只显示 TOP10 作品，由API自动选取</span></p>
-<p><span style="color: #ff5050;">你猫统计API有点问题，作品数量的统计可能会有异常情况发生</span></p>
 
 <h2 style="font-size: 1.4em; font-weight: normal;">
   ============ ~作品情况~ ============
