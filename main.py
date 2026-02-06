@@ -208,6 +208,9 @@ html += f"""
 <div>同时发布在图书馆，小说ID：192733</div>
 <div>&nbsp;</div><br/>
 
+<div>编程猫状态监控（API/CDN）：Https://Bcmstat.Pages.Dev/</div>
+<div>&nbsp;</div><br/>
+
 <div>本帖将会发在“灌水池塘”，之后想看的话，也可以来这里找</div>
 <div>&nbsp;</div><br/>
 
