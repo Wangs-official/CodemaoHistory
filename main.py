@@ -11,8 +11,7 @@ boards = ["17", "2", "10", "5", "3", "6", "27", "11", "26", "13", "7", "4", "28"
 
 # 登录
 
-# token = GetUserToken(os.environ["CODEMAO_PHONE"], os.environ["CODEMAO_PASSWORD"])
-token = GetUserToken("18302483580", "wzx0926wzx")
+token = GetUserToken(os.environ["CODEMAO_PHONE"], os.environ["CODEMAO_PASSWORD"])
 
 headers = {
     "Accept": "*/*",
@@ -58,7 +57,7 @@ today_workid = json.loads(
 print(f"测试的作品ID：{today_workid}")
 print(f"今日作品数量：{today_workid - yesterday_workid}")
 today_worknum = today_workid - yesterday_workid
-work_rate = f"{(today_worknum - yesterday_worknum) / yesterday_worknum * 100:.4f}"
+work_rate = f"{(today_worknum - yesterday_worknum) / yesterday_worknum * 100:.2f}"
 f.close()
 
 
@@ -139,7 +138,7 @@ alt=\"emotion_编程猫_嗨起来\"></span></strong></p>
 <span style=\"color:#50aae6;\">{today_postnum - yesterday_postnum}</span> 个</div>
 <div>&nbsp;</div><br/>
 
-<div>📈 帖子增长率（较昨日）：
+<div>📈 帖子整体增长率（较昨日）：
 <span style=\"color:#50aae6;\">{post_rate}</span> %</div>
 <div>&nbsp;</div><br/>
 
@@ -147,7 +146,7 @@ alt=\"emotion_编程猫_嗨起来\"></span></strong></p>
 <span style=\"color:#50aae6;\">{today_replynum - yesterday_replynum}</span> 个</div>
 <div>&nbsp;</div><br/>
 
-<div>📈 回复增长率（较昨日）：
+<div>📈 回复整体增长率（较昨日）：
 <span style=\"color:#50aae6;\">{reply_rate}</span> %</div>
 <div>&nbsp;</div><br/><br/>
 
@@ -202,13 +201,13 @@ html += f"""
 <div>若有统计问题，可在此帖子下进行反馈</div>
 <div>&nbsp;</div><br/>
 
-<div>黎星羽的训练师ID：1458227103</div>
-<div>&nbsp;</div><br/>
-
 <div>同时发布在图书馆，小说ID：192733</div>
 <div>&nbsp;</div><br/>
 
-<div>编程猫状态监控（API/CDN）：Https://bcmstat.pages.Dev/</div>
+<div>此Bot由HachimLab创造，欢迎查看我们的官网：Https://Hachimlab.top/</div>
+<div>&nbsp;</div><br/>
+
+<div>HachimLab是一个公益的编程猫第三方脚本制作工作室，欢迎各位的加入！</div>
 <div>&nbsp;</div><br/>
 
 <div>本帖将会发在“灌水池塘”，之后想看的话，也可以来这里找</div>
@@ -230,8 +229,11 @@ response = PostAPI(
     Token=token,
 )
 
-post_id = json.loads(response.text).get("id", 0)
-print(f"完成论坛上传任务, 帖子ID：{post_id}")
+if response.status_code == 201:
+    post_id = json.loads(response.text).get("id", 0)
+    print(f"完成论坛上传任务, 帖子ID：{post_id}")
+else:
+    print(f"社区状态异常: {response.status_code}，跳过发帖任务")
 
 
 # 发布小说
@@ -254,9 +256,9 @@ html_novel = f"""
   ============ ~论坛情况~ ============
 </h2>
 <p>今日发布帖子：{today_postnum - yesterday_postnum} 个</p>
-<p>帖子增长率（较昨日）：{post_rate} %</p>
+<p>帖子整体增长率（较昨日）：{post_rate} %</p>
 <p>今日回复帖子总数：{today_replynum - yesterday_replynum} 个</p>
-<p>回复增长率（较昨日）：{reply_rate} %</p>
+<p>回复整体增长率（较昨日）：{reply_rate} %</p>
 
 <h2 style="font-size: 1.4em; font-weight: normal;">
   ============ ~首页情况~ ============
@@ -285,9 +287,10 @@ html_novel += f"""
 </h2>
 <p>Action触发时间戳：{time.time()}</p>
 <p>若有统计问题，可在黎星羽的作品/本日统计帖子下反馈</p>
-<p>已在论坛完成发帖，帖子ID：{post_id}</p>
-<p>黎星羽的训练师ID：1458227103</p>
-<p>BY LiXingYu</p>
+<p>已在论坛完成发帖，请在灌水池塘内寻找最新帖子</p>
+<p>此Bot由HachimLab创造，欢迎查看我们的官网：Https://Hachimlab.top/</p>
+<p>HachimLab是一个公益的编程猫第三方脚本制作工作室，欢迎各位的加入！</p>
+<p>BY HachimLab</p>
 """
 
 response = PostAPI(
