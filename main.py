@@ -234,6 +234,7 @@ if response.status_code == 201:
     print(f"完成论坛上传任务, 帖子ID：{post_id}")
 else:
     print(f"社区状态异常: {response.status_code}，跳过发帖任务")
+    print(f"{response.text}")
 
 
 # # 发布小说
