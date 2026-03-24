@@ -236,76 +236,76 @@ else:
     print(f"社区状态异常: {response.status_code}，跳过发帖任务")
 
 
-# 发布小说
+# # 发布小说
 
-html_novel = f"""
-<h1 style="font-size: 1.6em; font-weight: normal;">
-    {date.today().isoformat()} 统计数据
-</h1>
+# html_novel = f"""
+# <h1 style="font-size: 1.6em; font-weight: normal;">
+#     {date.today().isoformat()} 统计数据
+# </h1>
 
-<p><span style="color: #ff5050;">数据由程序自动统计并上传，截止到本日23:50分</span></p>
-<p><span style="color: #ff5050;">首页只显示 TOP10 作品，由API自动选取</span></p>
+# <p><span style="color: #ff5050;">数据由程序自动统计并上传，截止到本日23:50分</span></p>
+# <p><span style="color: #ff5050;">首页只显示 TOP10 作品，由API自动选取</span></p>
 
-<h2 style="font-size: 1.4em; font-weight: normal;">
-  ============ ~作品情况~ ============
-</h2>
-<p>今日上传作品：{today_worknum} 个</p>
-<p>作品增长率（较昨日）：{work_rate} %</p>
+# <h2 style="font-size: 1.4em; font-weight: normal;">
+#   ============ ~作品情况~ ============
+# </h2>
+# <p>今日上传作品：{today_worknum} 个</p>
+# <p>作品增长率（较昨日）：{work_rate} %</p>
 
-<h2 style="font-size: 1.4em; font-weight: normal;">
-  ============ ~论坛情况~ ============
-</h2>
-<p>今日发布帖子：{today_postnum - yesterday_postnum} 个</p>
-<p>帖子整体增长率（较昨日）：{post_rate} %</p>
-<p>今日回复帖子总数：{today_replynum - yesterday_replynum} 个</p>
-<p>回复整体增长率（较昨日）：{reply_rate} %</p>
+# <h2 style="font-size: 1.4em; font-weight: normal;">
+#   ============ ~论坛情况~ ============
+# </h2>
+# <p>今日发布帖子：{today_postnum - yesterday_postnum} 个</p>
+# <p>帖子整体增长率（较昨日）：{post_rate} %</p>
+# <p>今日回复帖子总数：{today_replynum - yesterday_replynum} 个</p>
+# <p>回复整体增长率（较昨日）：{reply_rate} %</p>
 
-<h2 style="font-size: 1.4em; font-weight: normal;">
-  ============ ~首页情况~ ============
-</h2>
-"""
+# <h2 style="font-size: 1.4em; font-weight: normal;">
+#   ============ ~首页情况~ ============
+# </h2>
+# """
 
-work_no = 0
+# work_no = 0
 
-for work in items:
-    work_no = work_no + 1
-    html_novel += f"""
-<h3 style="font-size: 1.2em; font-weight: normal;">
-  《{work["work_name"]}》
-</h3>
-<p>作品ID：{work["work_id"]}</p>
-<p>开发者：{work["nickname"]}</p>
-<p>总浏览数：{work["views_count"]}</p>
-<p>总点赞：{work["likes_count"]}</p>
-<p>排行：{work_no} 名</p>
-<br/>
-"""
+# for work in items:
+#     work_no = work_no + 1
+#     html_novel += f"""
+# <h3 style="font-size: 1.2em; font-weight: normal;">
+#   《{work["work_name"]}》
+# </h3>
+# <p>作品ID：{work["work_id"]}</p>
+# <p>开发者：{work["nickname"]}</p>
+# <p>总浏览数：{work["views_count"]}</p>
+# <p>总点赞：{work["likes_count"]}</p>
+# <p>排行：{work_no} 名</p>
+# <br/>
+# """
 
-html_novel += f"""
-<h2 style="font-size: 1.4em; font-weight: normal;">
-  ============ 统计完成 ============
-</h2>
-<p>Action触发时间戳：{time.time()}</p>
-<p>若有统计问题，可在黎星羽的作品/本日统计帖子下反馈</p>
-<p>已在论坛完成发帖，请在灌水池塘内寻找最新帖子</p>
-<p>此Bot由HachimLab创造，欢迎查看我们的官网：Https://Hachimlab.top/</p>
-<p>HachimLab是一个公益的编程猫第三方脚本制作工作室，欢迎各位的加入！</p>
-<p>BY HachimLab</p>
-"""
+# html_novel += f"""
+# <h2 style="font-size: 1.4em; font-weight: normal;">
+#   ============ 统计完成 ============
+# </h2>
+# <p>Action触发时间戳：{time.time()}</p>
+# <p>若有统计问题，可在黎星羽的作品/本日统计帖子下反馈</p>
+# <p>已在论坛完成发帖，请在灌水池塘内寻找最新帖子</p>
+# <p>此Bot由HachimLab创造，欢迎查看我们的官网：Https://Hachimlab.top/</p>
+# <p>HachimLab是一个公益的编程猫第三方脚本制作工作室，欢迎各位的加入！</p>
+# <p>BY HachimLab</p>
+# """
 
-response = PostAPI(
-    Path="/web/fanfic/section",
-    PostData={
-        "title": datetime.now().strftime("%m%d"),
-        "draft": html_novel,
-        "draft_words_num": 0,
-        "fanfic_id": 192733,
-    },
-    Token=token,
-)
+# response = PostAPI(
+#     Path="/web/fanfic/section",
+#     PostData={
+#         "title": datetime.now().strftime("%m%d"),
+#         "draft": html_novel,
+#         "draft_words_num": 0,
+#         "fanfic_id": 192733,
+#     },
+#     Token=token,
+# )
 
-t_id = json.loads(response.text).get("id", 0)
+# t_id = json.loads(response.text).get("id", 0)
 
-PutAPI(Path=f"/web/fanfic/section/{t_id}/publish", Token=token)
+# PutAPI(Path=f"/web/fanfic/section/{t_id}/publish", Token=token)
 
-print(f"完成小说上传任务，章节ID：{t_id}")
+# print(f"完成小说上传任务，章节ID：{t_id}")
