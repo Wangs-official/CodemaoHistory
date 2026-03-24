@@ -105,11 +105,6 @@ items = index_data.get("items", [])
 
 # 写入到HTML（论坛）
 html = f"""
-<p><strong><span style=\"font-size: large;\"><img
-src=\"https://static.codemao.cn/emoji/codemao/%E7%BC%96%E7%A8%8B%E7%8C%AB_%E5%97%A8%E8%B5%B7%E6%9D%A5.gif\"
-alt=\"emotion_编程猫_嗨起来\"></span></strong></p>
-<div>&nbsp;</div><br/>
-
 <p><span style=\"color: #ff5050;\"><strong>
 <span style=\"font-size: large;\">⚠️ 提示</span>
 </strong></span></p>
@@ -212,10 +207,6 @@ html += f"""
 
 <div>本帖将会发在“灌水池塘”，之后想看的话，也可以来这里找</div>
 <div>&nbsp;</div><br/>
-
-<div><img
-src=\"https://static.codemao.cn/emoji/codemao/%E7%BC%96%E7%A8%8B%E7%8C%AB_%E7%82%B9%E8%B5%9E.gif\"
-alt=\"emotion_编程猫_点赞\"></div>
 """
 
 # 发布论坛
