@@ -220,6 +220,8 @@ response = PostAPI(
     Token=token,
 )
 
+print(html)
+
 if response.status_code == 201:
     post_id = json.loads(response.text).get("id", 0)
     print(f"完成论坛上传任务, 帖子ID：{post_id}")
